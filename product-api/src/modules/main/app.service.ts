@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from 'src/modules/config';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'API Running!';
+  constructor(private config: ConfigService) {}
+
+  root(): string {
+    return this.config.get('APP_URL');
   }
 }
