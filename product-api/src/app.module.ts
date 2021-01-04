@@ -3,10 +3,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigService } from 'src/config/config.service';
+import { ConfigService } from 'src/modules/config/config.service';
 /* App Modules */
-import { ConfigModule } from 'src/config/config.module';
-import { ProductModule } from 'src/product/product.module';
+import { ConfigModule } from 'src/modules/config/config.module';
+import { ProductModule } from 'src/modules/product/product.module';
+import { ItemsModule } from './items/items.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ProductModule } from 'src/product/product.module';
     /* App Modules */
     ConfigModule,
     ProductModule,
+    ItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
