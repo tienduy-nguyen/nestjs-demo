@@ -7,7 +7,6 @@ import { ConfigService } from 'src/modules/config/config.service';
 /* App Modules */
 import { ConfigModule } from 'src/modules/config/config.module';
 import { ProductModule } from 'src/modules/product/product.module';
-import { ItemsModule } from './items/items.module';
 
 @Module({
   imports: [
@@ -31,7 +30,6 @@ import { ItemsModule } from './items/items.module';
     /* App Modules */
     ConfigModule,
     ProductModule,
-    ItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
