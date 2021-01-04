@@ -7,3 +7,7 @@ Node.js
 MySQL
 Nest CLI
 A CircleCI account
+
+## Referent
+
+[Getting started with Nestjs](https://circleci.com/blog/getting-started-with-nestjs-and-automatic-testing/)

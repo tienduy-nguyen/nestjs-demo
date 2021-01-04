@@ -1,13 +1,16 @@
 import { join } from 'path';
 import { Module } from '@nestjs/common';
+import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigService } from 'src/modules/config/config.service';
-import { ConfigModule } from 'src/modules/config/config.module';
-import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
+import { ConfigService } from 'src/config/config.service';
+/* App Modules */
+import { ConfigModule } from 'src/config/config.module';
+import { ProductModule } from 'src/product/product.module';
 
 @Module({
   imports: [
+    /* Database */
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -24,7 +27,9 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
         } as TypeOrmModuleAsyncOptions;
       },
     }),
+    /* App Modules */
     ConfigModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
