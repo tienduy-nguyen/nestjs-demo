@@ -8,7 +8,7 @@ export class AppController {
 
   @ApiTags('Root')
   @Get()
-  root(): string {
+  public root(): string {
     return this.appService.root();
   }
 }
