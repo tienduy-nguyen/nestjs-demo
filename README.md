@@ -1,3 +1,3 @@
 # Nestjs Demo
 
-Projects RESTAPI demo
+Projects REST API demo with NestJS
