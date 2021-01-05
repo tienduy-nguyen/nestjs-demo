@@ -7,6 +7,7 @@ import { ConfigService } from 'src/modules/config/config.service';
 /* App Modules */
 import { ConfigModule } from 'src/modules/config/config.module';
 import { ProductModule } from 'src/modules/product/product.module';
+import { ProductService } from './product/product.service';
 
 @Module({
   imports: [
@@ -32,6 +33,6 @@ import { ProductModule } from 'src/modules/product/product.module';
     ProductModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ProductService],
 })
 export class AppModule {}
