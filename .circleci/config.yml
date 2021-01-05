@@ -3,13 +3,13 @@ orbs:
   node: circleci/node@3.0.0
 jobs:
   build-and-test:
+    working_directory: ~/nestjs-demo/product-api
     executor:
       name: node/default
     steps:
-      - checkout
-      - node/install-packages
-      - run: cd product-api
-      - run: yarn test
+      - checkout:
+          path: ~/nestjs-demo
+      - run: npm install && npm run test
 
 workflows:
   build-and-test:
