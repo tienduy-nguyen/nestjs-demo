@@ -11,11 +11,11 @@ export class UsersService {
     private _userRepository: Repository<User>,
   ) {}
 
-  public async findUsers(): Promise<User[]> {
+  public async getUsers(): Promise<User[]> {
     return await this._userRepository.find();
   }
 
-  public async findUserById(id: number): Promise<User> {
+  public async getUserById(id: number): Promise<User> {
     return await this._userRepository.findOne(id);
   }
 
