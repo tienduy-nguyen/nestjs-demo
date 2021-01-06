@@ -7,7 +7,7 @@
           "request": "launch",
           "name": "Debug Nest Framework",
           "args": [
-              "${workspaceFolder}/src/main.ts"
+              "${workspaceFolder}/auth-demo/src/main.ts"
           ],
           "runtimeArgs": [
               "--nolazy",
@@ -17,8 +17,8 @@
               "tsconfig-paths/register"
           ],
           "sourceMaps": true,
-          "envFile": "${workspaceFolder}/.env",
-          "cwd": "${workspaceRoot}",
+          "envFile": "${workspaceFolder}/auth-demo/.env",
+          "cwd": "${workspaceRoot}/auth-demo",
           "console": "integratedTerminal",
           "protocol": "inspector"
       }
