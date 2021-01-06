@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthService } from './modules/auth/auth.service';
 import { UserService } from './modules/users/users.service';
 import { LocalAuthGuard } from 'src/modules/auth/guards/local-auth.guard';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 @ApiTags('Root')
 @Controller()
 export class AppController {
@@ -25,6 +26,12 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   public async login(@Request() req) {
-    return this.authService.login(req.body);
+    return this.authService.login(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('api/profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }
