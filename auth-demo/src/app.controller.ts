@@ -1,12 +1,30 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
-
+import { AuthService } from './modules/auth/auth.service';
+import { UserService } from './modules/users/users.service';
+import { LocalAuthGuard } from 'src/modules/auth/guards/local-auth.guard';
+@ApiTags('Root')
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+  @Get('api/users')
+  public async getUsers() {
+    return this.userService.getAllUser();
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('auth/login')
+  public async login(@Request() req) {
+    return this.authService.login(req.body);
   }
 }
