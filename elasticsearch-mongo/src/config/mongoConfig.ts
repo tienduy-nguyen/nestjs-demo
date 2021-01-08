@@ -1,6 +1,10 @@
 import { join } from 'path';
 
-export const mongoConfig = () => {
+export function mongoConfig(): any {
+  console.log('--------------------tst', process.env.DATABASE_TYPE);
+  console.log('--------------------tst', process.env.DATABASE_HOST);
+  console.log('--------------------tst', process.env.DATABASE_PORT);
+  console.log('--------------------tst', process.env.DATABASE_USERNAME);
   return {
     type: process.env.DATABASE_TYPE,
     host: process.env.DATABASE_HOST,
@@ -13,15 +17,6 @@ export const mongoConfig = () => {
     autoLoadEntities: true,
     useUnifiedTopology: true,
     useNewUrlParser: true,
-    connectTimeout: parseInt(process.env.DATABASE_CONNECTION_TIME_OUT),
-    acquireTimeout: parseInt(process.env.DATABASE_ACQUIRE_TIME_OUT),
-    extra: {
-      connectionLimit: parseInt(process.env.DATABASE_CONNECTION_LIMIT),
-    },
     entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-    subscribers: ['dist/observers/subscribers/*.subscriber.js'],
-    cli: {
-      subscribersDir: 'src/observers/subscribers',
-    },
   };
-};
+}
