@@ -32,6 +32,7 @@ RUN yarn install
 
 # Copy existing application directory contents
 COPY . ./
+RUN yarn typeorm migration:run
 RUN yarn build
 
 
