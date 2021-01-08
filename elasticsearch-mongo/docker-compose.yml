@@ -2,54 +2,41 @@ version: '3.8'
 
 services:
   es-mongo-nestjs:
-    depends_on:
-      - mongodb
     build: 
       context: .
       dockerfile: Dockerfile
-    # imagename
     image: nest-es-demo-docker
-    container_name: es-mongo-nestjs
+    container_name: es-nestjs-service
     restart: always
-
-    #docker run -t is allow
-    tty: true
 
     ports:
        - "${SERVER_PORT}:${SERVER_PORT}"
     env_file:
       - .env
-    environment:
-      SERVICE_NAME: es-mongo-nestjs
-      SERVICE_TAGS: dev
-      SERVICE_DB_HOST: ${DATABASE_HOST}:${DATABASE_PORT}
-      SERVICE_DB_USER: ${DATABASE_USERNAME}
-      SERVICE_DB_PASSWORD: ${DATABASE_PASSWORD}
-      SERVICE_ES_HOST: ${ELASTIC_SEARCH_HOST}:${ELASTIC_SEARCH_PORT}
-      ELASTICSEARCH_URL: ${ELASTIC_SEARCH_URL}
-    
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    depends_on:
+      - mysqldb
     networks:
       - nest-demo-network
     
   # Database service
-  mongodb:
-    image: mongo
-    container_name: nestmongo
-    restart: unless-stopped
-    environment:
-      MONGO_INITDB_ROOT_DATABASE: ${DATABASE_NAME}
-      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
-    volumes:
-      - mongo_data:/data/configdb
-      - mongo_data:/data/db
+  mysqldb:
+    image: mysql:5.7
+    container_name: mysql-service
+    restart: always
     env_file:
       - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
     ports:
-      - "${DATABASE_PORT}:${DATABASE_PORT}"
+      - 3306:3306
     networks:
       - nest-demo-network
 
@@ -85,6 +72,6 @@ networks:
     driver: bridge
 # save (persist) data
 volumes:
-  mongo_data:
-    name: global_mongo
+  mysql_data:
+    name: mysql_data
   # es_data: {}
