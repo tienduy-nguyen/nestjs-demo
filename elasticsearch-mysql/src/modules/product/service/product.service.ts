@@ -1,23 +1,36 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateProductDto, UpdateProductDto } from '../dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { ISearchService } from 'src/modules/search/service/search.service.interface';
+import { CreateProductDto } from '../dto';
 import { Product } from '../product.entity';
+import { IProductRepository } from '../repository/product.repository.interface';
 import { IProductService } from './product.service.interface';
 
 @Injectable()
 export class ProductService implements IProductService {
   constructor(
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    @Inject('IProductRepository')
+    private readonly productRepository: IProductRepository,
+    @Inject('ISearchService')
+    private readonly searchService: ISearchService<any>,
   ) {}
-  create(productDto: CreateProductDto): Promise<Product> {
-    throw new Error('Method not implemented.');
+  public async create(productDto: CreateProductDto): Promise<Product> {
+    const product = new Product();
+    product.name = productDto.name;
+    product.description = productDto.description;
+    product.price = productDto.price;
+    return this.productRepository.create(product);
   }
-  update(productId: any, updateProduct: any): Promise<Product> {
-    throw new Error('Method not implemented.');
+
+  public async update(productId: any, updateProduct: any): Promise<Product> {
+    const product = await this.productRepository.findOneById(productId);
+    product.name = updateProduct.name;
+    product.description = updateProduct.description;
+    product.price = updateProduct.price;
+    return this.productRepository.create(product);
   }
-  search(q: any): Promise<any> {
-    throw new Error('Method not implemented.');
+
+  public async search(q: any): Promise<any> {
+    const data = ProductSearchObject.searchObject(q);
+    return this.searchService.searchIndex(data);
   }
 }
