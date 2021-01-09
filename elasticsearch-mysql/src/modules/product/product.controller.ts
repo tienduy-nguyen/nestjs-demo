@@ -1,13 +1,25 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from './dto';
 import { Product } from './product.entity';
-import { ProductService } from './service/product.service';
+import { IProductService } from './service/product.service.interface';
 
 @ApiTags('products')
 @Controller('api/products')
 export class ProductController {
-  constructor(private productService: ProductService) {}
+  constructor(
+    @Inject('IProductService')
+    private readonly productService: IProductService,
+  ) {}
 
   @Post()
   public async create(@Body() productDto: CreateProductDto): Promise<Product> {

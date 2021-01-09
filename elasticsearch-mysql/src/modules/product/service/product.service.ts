@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ISearchService } from 'src/modules/search/service/search.service.interface';
 import { CreateProductDto } from '../dto';
 import { Product } from '../product.entity';
+import { ProductSearchObject } from '../product.search.object';
 import { IProductRepository } from '../repository/product.repository.interface';
 import { IProductService } from './product.service.interface';
 
