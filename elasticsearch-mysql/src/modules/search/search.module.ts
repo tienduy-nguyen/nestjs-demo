@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { SearchService } from './search.service';
+import { SearchService } from './service/search.service';
 
 @Module({
   providers: [{ provide: 'ISearchService', useClass: SearchService }],

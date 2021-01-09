@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ISearchService } from '../ISearchService';
+import { ISearchService } from '../service/search.service.interface';
 import { productIndex } from '../constants';
 import { Product } from 'src/modules/product/product.entity';
 
