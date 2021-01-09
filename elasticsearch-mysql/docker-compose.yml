@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  es-mongo-nestjs:
+  es-mysql-nestjs:
     build: 
       context: .
       dockerfile: Dockerfile
