@@ -3,10 +3,22 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  private start: number;
+  constructor(private readonly appService: AppService) {
+    this.start = Date.now();
+  }
 
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Get('healthcheck')
+  public async healthcheck() {
+    const now = Date.now();
+    return {
+      status: 'API Online',
+      uptime: Number((now - this.start) / 1000).toFixed(0),
+    };
   }
 }
