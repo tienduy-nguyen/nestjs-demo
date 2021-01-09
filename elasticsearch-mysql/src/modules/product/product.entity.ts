@@ -14,9 +14,15 @@ export class Product extends BaseEntity {
   @Column()
   price: string;
 
-  @Column()
+  @Column('timestamp', {
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @Column()
+  @Column('timestamp', {
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 }
