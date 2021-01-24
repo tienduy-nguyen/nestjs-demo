@@ -12,5 +12,9 @@ declare namespace NodeJS {
     readonly TYPEORM_ENTITIES: string;
     readonly TYPEORM_MIGRATIONS: string;
     readonly ROUTE_GLOBAL_PREFIX: string;
+    readonly RABBITMQ_USER: string;
+    readonly RABBITMQ_PASSWORD: string;
+    readonly RABBITMQ_HOST: string;
+    readonly RABBITMQ_QUEUE_NAME: string;
   }
 }

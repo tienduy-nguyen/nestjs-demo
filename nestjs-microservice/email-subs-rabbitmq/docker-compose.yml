@@ -13,7 +13,7 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     env_file:
-      - docker.env
+      - .env.docker
     depends_on:
       - postgres_docker
     networks:
@@ -27,7 +27,7 @@ services:
     volumes:
       - /data/postgres:/data/postgres
     env_file:
-      - docker.env
+      - .env.docker
     logging:
       driver: none
     networks:
@@ -43,7 +43,7 @@ services:
     volumes:
       - /data/pgadmin:/root/.pgadmin
     env_file:
-      - docker.env
+      - .env.docker
     logging:
       driver: none
     networks:
