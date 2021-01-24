@@ -1,3 +1,3 @@
-# Nestjs Demo
+# NestJS Demo
 
-Projects REST API demo with NestJS
+Discover the different techniques out of the box of NestJS.
