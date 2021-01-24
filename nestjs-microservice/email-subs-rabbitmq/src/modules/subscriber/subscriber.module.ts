@@ -8,5 +8,6 @@ import { SubscriberService } from './subscriber.service';
   imports: [TypeOrmModule.forFeature([SubscriberRepository])],
   controllers: [SubscriberController],
   providers: [SubscriberService],
+  exports: [],
 })
 export class SubscriberModule {}

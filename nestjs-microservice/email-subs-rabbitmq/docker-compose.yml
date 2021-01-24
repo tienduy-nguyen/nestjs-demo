@@ -15,6 +15,9 @@ services:
       - .env.docker
     depends_on:
       - postgres_docker
+      - rabbitmq
+    links:
+      - rabbitmq
     networks:
       - postgres_networks
 
