@@ -6,7 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: always 
     ports: 
       - '${SERVER_PORT}:${SERVER_PORT}'
     volumes:
@@ -49,6 +48,21 @@ services:
     networks:
       - postgres_networks
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    volumes:
+      - /var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env.rabbitmq
+    logging:
+      driver: none
+    networks:
+      - postgres_networks
 
 networks:
   postgres_networks:
