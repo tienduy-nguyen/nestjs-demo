@@ -41,3 +41,4 @@ lerna-debug.log*
 .env.production
 dist
 dist/
+docker.env
