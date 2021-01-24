@@ -8,7 +8,7 @@ export function ormConfig(): any {
     username: process.env.TYPEORM_USERNAME,
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
-    autoloadEntities: true,
+    autoLoadEntities: true,
     entities: [join(__dirname, '**', '*.entity.{ts,js}')],
     logging: false,
     synchronize: true,
