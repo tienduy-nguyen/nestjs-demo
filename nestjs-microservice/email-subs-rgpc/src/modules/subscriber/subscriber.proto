@@ -3,7 +3,7 @@ syntax = "proto3";
 package subscribers;
 
 service SubscriberService{
-  rpc GetSubscribers(GetSubscribersParams) returns (SubscriberResponse){}
+  rpc GetSubscribers(GetSubscribersParams) returns (SubscribersResponse){}
   rpc AddSubscriber(CreateSubscriberDto) returns (Subscriber){}
 }
 
