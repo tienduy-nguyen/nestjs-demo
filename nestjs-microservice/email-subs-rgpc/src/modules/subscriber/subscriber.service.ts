@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { SubscriberRepository } from './subscriber.repository';
 
-@Injectable()
+@Controller()
 export class SubscriberService {
   constructor(
     @InjectRepository(SubscriberRepository)

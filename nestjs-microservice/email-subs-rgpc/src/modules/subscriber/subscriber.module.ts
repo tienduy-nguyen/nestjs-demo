@@ -5,7 +5,7 @@ import { SubscriberService } from './subscriber.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([SubscriberRepository])],
-  providers: [SubscriberService],
+  controllers: [SubscriberService],
   exports: [],
 })
 export class SubscriberModule {}
