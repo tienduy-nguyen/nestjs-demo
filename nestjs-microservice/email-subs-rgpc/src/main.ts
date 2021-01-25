@@ -1,6 +1,7 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
@@ -8,24 +9,19 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ skipMissingProperties: true }));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  const user = process.env.RABBITMQ_USER;
-  const password = process.env.RABBITMQ_PASSWORD;
-  const host = process.env.RABBITMQ_HOST;
-  const queueName = process.env.RABBITMQ_QUEUE_NAME;
 
+  const grpcUrl = process.env.GRPC_CONNECTION_URL;
   app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.RMQ,
+    transport: Transport.GRPC,
     options: {
-      urls: [`amqp://${user}:${password}@${host}`],
-      queue: queueName,
-      queueOptions: {
-        durable: true,
-      },
+      package: 'subscribers',
+      protoPath: join(process.cwd(), 'src/subscriber/subscriber.proto'),
+      url: grpcUrl,
     },
   });
   app.startAllMicroservices(() => {
     console.log(
-      `Microservice email subscription is running at http://${host}/`,
+      `Microservice email subscription is running at http://${grpcUrl}/`,
     );
   });
 }
