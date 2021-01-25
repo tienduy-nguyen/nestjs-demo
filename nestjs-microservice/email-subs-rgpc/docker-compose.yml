@@ -1,0 +1,55 @@
+version : "3.8"
+
+services:
+  email_subscription:
+    container_name: email_subscription 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - '${SERVER_PORT}:${SERVER_PORT}'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env.docker
+    depends_on:
+      - postgres_docker
+    networks:
+      - nestjs-microservice-networks
+
+  postgres_docker: 
+    container_name: email_postgres
+    image: postgres:latest
+    ports: 
+      - "5432:5432"
+    volumes:
+      - /data/postgres:/data/postgres
+    env_file:
+      - .env.docker
+    logging:
+      driver: none
+    networks:
+      - nestjs-microservice-networks
+
+  pgadmin:
+    links:
+      - postgres_docker:postgres_docker
+    container_name: email-pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - "8081:80"
+    volumes:
+      - /data/pgadmin:/root/.pgadmin
+    env_file:
+      - .env.docker
+    logging:
+      driver: none
+    networks:
+      - nestjs-microservice-networks
+
+
+networks:
+  default:
+    external:
+      name: nestjs-microservice-networks
