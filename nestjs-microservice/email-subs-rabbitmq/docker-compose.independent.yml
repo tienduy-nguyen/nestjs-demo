@@ -15,8 +15,9 @@ services:
       - .env.docker
     depends_on:
       - postgres_docker
+      - rabbitmq
     networks:
-      - nestjs-microservice-networks
+      - postgres_network
 
   postgres_docker: 
     container_name: email_postgres
@@ -30,7 +31,7 @@ services:
     logging:
       driver: none
     networks:
-      - nestjs-microservice-networks
+      - postgres_network
 
   pgadmin:
     links:
@@ -46,10 +47,24 @@ services:
     logging:
       driver: none
     networks:
-      - nestjs-microservice-networks
+      - postgres_network
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    volumes:
+      - /var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env.rabbitmq
+    logging:
+      driver: none
+    networks:
+      - postgres_network
 
 networks:
-  default:
-    external:
-      name: nestjs-microservice-networks
+  postgres_network:
+    driver: bridge
