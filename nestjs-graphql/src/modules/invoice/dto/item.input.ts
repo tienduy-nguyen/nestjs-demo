@@ -1,7 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
-export class ItemDTO {
+export class ItemInput {
   @Field()
   description: string;
 

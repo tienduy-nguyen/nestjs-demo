@@ -1,9 +1,9 @@
 import { PaymentStatus, Currency, IItem } from '../invoice.types';
 import { InputType, Field } from '@nestjs/graphql';
-import { ItemDTO } from './item.dto';
+import { ItemInput } from './item.input';
 
 @InputType()
-export class CreateInvoiceDTO {
+export class InvoiceInput {
   @Field()
   customer: string;
   @Field()
@@ -22,6 +22,6 @@ export class CreateInvoiceDTO {
   dueDate: Date;
   @Field()
   note: string;
-  @Field(() => [ItemDTO])
+  @Field(() => [ItemInput])
   items: Array<IItem>;
 }

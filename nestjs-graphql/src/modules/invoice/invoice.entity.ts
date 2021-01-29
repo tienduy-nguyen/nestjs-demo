@@ -34,11 +34,11 @@ export class Invoice {
   public invoiceNo: string;
 
   @Field()
-  @Column('Text')
+  @Column('text')
   public description: string;
 
-  @Field((type) => Customer)
-  @ManyToOne((type) => Customer, (customer) => customer.invoices)
+  @Field(() => Customer)
+  @ManyToOne(() => Customer, (customer) => customer.invoices)
   customer: Customer;
 
   @Field()
@@ -59,13 +59,14 @@ export class Invoice {
 
   @Field()
   @Column()
-  issueDate: string;
+  @CreateDateColumn()
+  issueDate: Date;
 
   @Field()
   @Column('text')
   public note: string;
 
-  @Field((type) => [Item])
+  @Field(() => [Item])
   @Column({
     type: 'jsonb',
     array: false,
@@ -84,7 +85,7 @@ export class Invoice {
 
   @Column()
   @Field()
-  total: string;
+  total: number;
 
   @Column({
     default: 0,

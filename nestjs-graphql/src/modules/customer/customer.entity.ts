@@ -24,7 +24,7 @@ export class Customer {
   public email: string;
 
   @Field()
-  @Column('varchar', { length: 15 })
+  @Column()
   public phone: string;
 
   @Field()
