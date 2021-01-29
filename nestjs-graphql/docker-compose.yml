@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  nestjs:
+    container_name: nestjs-graphql
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '${SERVER_PORT}:${SERVER_PORT}'
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+    networks:
+      - nestjs_network
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    ports:
+      - '5432-5432'
+    volumes:
+      - /data/postgres:/data/postgres
+    env_file:
+      - .env.docker
+    networks:
+      - nestjs_network
+
+  pgadmin:
+    links:
+     - postgres:postgres
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+    volumes:
+      - /data/pgadmin:/root/.pgadmin
+    env_file:
+      - .env.docker
+    networks:
+      - nestjs_network
+    logging:
+      driver: none
+
+networks:
+  nestjs_network:
+    driver: bridge
+    name: nestjs_network
