@@ -13,6 +13,17 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "incremental": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "pretty": true,
+    "importHelpers": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
