@@ -19,29 +19,57 @@ services:
       - '4466:4466'
     depends_on:
       - postgres
+    env_file:
+      - ".env"
     environment:
       PRISMA_CONFIG: |
         port: 4466
         databases:
           default:
             connector: postgres
-            host: postgres
-            port: 5432
-            user: prisma
-            password: prisma
+            host: ${DB_HOST}
+            port: ${DB_PORT}
+            user: ${DB_USERNAME}
+            password: ${DB_PASSWORD}
     networks:
       - nest_graphql_network
+    logging:
+      driver: none
+
+
   postgres:
-    image: postgres:lastest
+    image: postgres:latest
     restart: always
+    env_file:
+      - ".env"
     environment:
-      POSTGRES_USER: prisma
-      POSTGRES_PASSWORD: prisma
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - nest_graphql_network
+    logging:
+      driver: none
     
+  pgadmin:
+    links:
+    - postgres:postgres
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+    volumes:
+      - /data/pgadmin:/root/.pgadmin
+    env_file:
+      - .env
+    networks:
+      - nest_graphql_network
+    logging:
+      driver: none
+  
 
 volumes:
   postgres_data:
