@@ -3,7 +3,7 @@ FROM node:lts:alpine
 WORKDIR /usr/src/app
 
 COPY package*.json yarn.lock ./
-COPY ./src/common/prisma ./src/common/prisma
+COPY prisma ./prisma/
 
 RUN yarn install
 RUN yarn prisma generate
