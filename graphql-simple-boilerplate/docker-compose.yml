@@ -29,7 +29,7 @@ services:
             connector: postgres
             host: ${DB_HOST}
             port: ${DB_PORT}
-            user: ${DB_USERNAME}
+            user: ${DB_USER}
             password: ${DB_PASSWORD}
     networks:
       - nest_graphql_network
@@ -43,7 +43,7 @@ services:
     env_file:
       - ".env"
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     volumes:
