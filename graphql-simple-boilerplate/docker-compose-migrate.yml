@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+    
+  prisma-migrate:
+    container_name: prisma-migrate
+    build:
+      context: prisma
+      dockerfile: Dockerfile-prisma
+    env_file: 
+      - prisma.env
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL: ${DATABASE_URL}
+    networks:
+      - nest_graphql_network
+    logging:
+      driver: none
+
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - ".env"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nest_graphql_network
+    logging:
+      driver: none
+    
+  
+volumes:
+  postgres_data:
+    driver: local
+networks:
+  nest_graphql_network:
+    driver: bridge
+    name: nest_graphql_network
