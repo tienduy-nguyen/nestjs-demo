@@ -1,9 +1,13 @@
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 
 @Resolver()
 export class AppResolver {
   @Query(() => String)
-  public async hello() {
-    return 'hello';
+  helloWorld(): string {
+    return 'Hello World!';
+  }
+  @Query(() => String)
+  hello(@Args('name') name: string): string {
+    return `Hello ${name}!`;
   }
 }
