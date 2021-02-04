@@ -1,73 +1,213 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank">
+    <img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" />
+  </a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+<p align="center">
+  Demo implementation on the mailer modules for Nest framework (node.js) using <a href="https://nodemailer.com/">Nodemailer</a> library
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Nestjs-mailer starter kit / project for your NestJs project.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Goals
 
-## Installation
+The main goal of this kit is to <strong>quickly get you started on your project</strong> with <a href="https://github.com/nest-modules/mailer/" target="_blank">Nestjs Mailer</a>, bringing a <strong>solid layout foundation</strong> to work upon.
 
-```bash
-$ npm install
+### Usage
+
+Import the MailerModule into the root AppModule
+
+Synchronous import
+
+```javascript
+//app.module.ts
+import { Module } from '@nestjs/common';
+import { MailerModule } from '@nestjs-modules/mailer';  
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+
+@Module({
+  imports: [
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.example.com',
+        port: 587,
+        secure: false, // upgrade later with STARTTLS
+        auth: {
+          user: "username",
+          pass: "password",
+        },
+      },
+      defaults: {
+        from:'"nest-modules" <modules@nestjs.com>',
+      },
+      template: {
+        dir: process.cwd() + '/templates/',
+        adapter: new HandlebarsAdapter(), // or new PugAdapter()
+        options: {
+          strict: true,
+        },
+      },
+    }),
+  ],
+})
+export class AppModule {}
 ```
 
-## Running the app
+Asynchronous import
 
-```bash
-# development
-$ npm run start
+```typescript
+//app.module.ts
+import { Module } from '@nestjs/common';
+import { MailerModule } from '@nestjs-modules/mailer';  
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+@Module({
+  imports: [
+    MailerModule.forRootAsync({
+      useFactory: () => ({
+        transport: {
+          host: 'smtp.example.com',
+          port: 587,
+          secure: false, // upgrade later with STARTTLS
+          auth: {
+            user: "username",
+            pass: "password",
+          },
+        },
+        defaults: {
+          from:'"nest-modules" <modules@nestjs.com>',
+        },
+        template: {
+          dir: process.cwd() + '/templates/',
+          adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+          options: {
+            strict: true,
+          },
+        },
+      }),
+    }),
+  ],
+})
+export class AppModule {}
 ```
 
-## Test
+* We have used Handlebars in above example, for EJS and Pug use below mentioned example of adapter import
 
-```bash
-# unit tests
-$ npm run test
+Pug
 
-# e2e tests
-$ npm run test:e2e
+```javascript
+//app.module.ts
+import { Module } from '@nestjs/common';
+import { MailerModule } from '@nestjs-modules/mailer';  
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 
-# test coverage
-$ npm run test:cov
 ```
 
-## Support
+EJS
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```javascript
+//app.module.ts
+import { Module } from '@nestjs/common';
+import { MailerModule } from '@nestjs-modules/mailer';  
+import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 
-## Stay in touch
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+After this, MailerService will be available to inject across entire project, for example in this way : 
 
-Nest is [MIT licensed](LICENSE).
+```typescript
+import { Injectable } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
+
+@Injectable()
+export class ExampleService {
+  constructor(private readonly mailerService: MailerService) {}
+}
+```
+
+MailerProvider exports the `sendMail()` function to which you can pass the message options (sender, email subject, recipient, body content, etc)
+
+`sendMail()` accepts the same fields as [nodemailer email message](https://nodemailer.com/message/)
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
+
+@Injectable()
+export class ExampleService {
+  constructor(private readonly mailerService: MailerService) {}
+  
+  public example(): void {
+    this
+      .mailerService
+      .sendMail({
+        to: 'test@nestjs.com', // list of receivers
+        from: 'noreply@nestjs.com', // sender address
+        subject: 'Testing Nest MailerModule ✔', // Subject line
+        text: 'welcome', // plaintext body
+        html: '<b>welcome</b>', // HTML body content
+      })
+      .then((success) => {
+        console.log(success)
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  }
+  
+  public example2(): void {
+    this
+      .mailerService
+      .sendMail({
+        to: 'test@nestjs.com',
+        from: 'noreply@nestjs.com',
+        subject: 'Testing Nest Mailermodule with template ✔',
+        template: 'index', // The `.pug` or `.hbs` extension is appended automatically.
+        context: {  // Data to be sent to template engine.
+          code: 'cf1a3f828287',
+          username: 'john doe',
+        },
+      })
+       .then((success) => {
+        console.log(success)
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  }
+  
+  public example3(): void {
+    this
+      .mailerService
+      .sendMail({
+        to: 'test@nestjs.com',
+        from: 'noreply@nestjs.com',
+        subject: 'Testing Nest Mailermodule with template ✔',
+        template: '/index', // The `.pug` or `.hbs` extension is appended automatically.
+        context: {  // Data to be sent to template engine.
+          code: 'cf1a3f828287',
+          username: 'john doe',
+        },
+      })
+      .then((success) => {
+        console.log(success)
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  }
+}
+```
+
+Make a template named folder at the root level of the project and keep all the email-templates in the that folder with `.hbs` extension.
+This implementation uses handlebars as a view-engine and outlook as the smtp.
+
+
+### Configuration
+
+Dotenv module has been used for sender's email and password keep. This kit is implemented with outlook smtp, while we can make changes in the `app.module.ts` configurations for other services. As the nestjs-mailer is built on top of nodemailer, the required configurations can be found here <a href="https://nodemailer.com/smtp/">Nodemailer / smtp</a>. 
+
+*Special thanks to https://github.com/leemunroe/responsive-html-email-template for providing email-templates*
+
